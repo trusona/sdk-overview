@@ -12,11 +12,15 @@
 1. [Authentication using Trusona use cases](#authentication-using-trusona-use-cases)
     1. [Trusonafying a registered user](#trusonafying-a-registered-user)
     1. [Scanning a displayed TruCode to bind to known device](#scanning-a-displayed-trucode-to-bind-to-known-device)
-    1. [Using the Trusona Gateway for TruCode Trusonafication](#using-the-trusona-gateway-for-trucode-trusonafication)
-    1. [Using the Trusona Gateway via IDP for TruCode Trusonafication](#using-the-trusona-gateway-via-idp-for-trucode-trusonafication)
+    1. [Trusonafying using SAML or OpenID Connect](#trusonafying-using-saml-or-openid-connect)
+    1. [Trusonafying using SAML or OpenID Connect and an internal IDP](#trusonafying-using-saml-or-openid-connect-and-an-internal-idp)
 1. [Identity document use cases](#identity-document-use-cases)
     1. [Scanning and parsing field data from a driver’s license barcode](#scanning-and-parsing-field-data-from-a-drivers-license-barcode)
+1. [Glossary of Terms](#glossary-of-terms)
+
 ## Overview
+
+**Note**: This article relies heavily on Trusona specific terms. Please familiarize yourself with the [Glossary of Terms](#glossary-of-terms) found at the end of this article before continuing.
 
 To remove the need for your users to remember or use a password requires the collaboration of the following three components: your mobile app using the **Trusona Mobile SDK**, your backend systems and services, that require authentication, using the **Trusona Server SDK** and the **Trusona API** services themselves.
 
@@ -59,7 +63,7 @@ An existing user downloads your app on a new device, and launches it.
 
 1. The **Trusona Mobile SDK** registers the device with the **Trusona API**.
 2. The **Relying Party App** collects the user’s primary information and sends that in addition to the device identifier from the **Trusona Mobile SDK** to the **Relying Party Server**.
-3. The **Relying Party Server**, using the **Trusona Server SDK**, creates a additional device+user binding in the **Trusona API** by sending the user identifier along with the device identifier obtained in step 2.
+3. The **Relying Party Server**, using the **Trusona Server SDK**, creates an additional device+user binding in the **Trusona API** by sending the user identifier along with the device identifier obtained in step 2.
 4. The **Trusona API** responds to the device+user binding request with an activation code that the **Relying Party Server** will use to notify the **Trusona API** when the Account Verification step is complete.
 5. The Relying Party completes the Account Verification process. This will likely include an email verification process.
 6. The Trusona Server SDK notifies the Trusona API that the device+user binding has been verified and should be considered “active.”
@@ -128,7 +132,7 @@ A user navigates to a resource and you wish to know who is "knocking". The user 
 
 At this point the **Relying Party Server** can choose to issue a Trusonafication directly to retrieve an authenticated user identifier, giving them the identity that Trusona knows is paired to the device.
 
-#### Trusonafying using SAML/OpenID Connect
+#### Trusonafying using SAML or OpenID Connect
 
 Rather than using the SDK directly, to display a TruCode with your company's login pages, you can choose to integrate with Trusona's Gateway using OpenID Connect or SAML. When configured, the Trusona Gateway will handle the displaying of the TruCode, and the creation of an associated Trusonafication.
 
@@ -142,7 +146,7 @@ Rather than using the SDK directly, to display a TruCode with your company's log
 6. The **Trusona API** responds to the **Trusona Gateway**, that has been querying for a Trusonafication result, opening the session and authenticating the existing account on the existing device.
 7. The **Trusona Gateway** responds with the appropriate SAML or OpenID Connect response indicating authentication is successful. The **Relying Party Server** can then allow the user's browser to access the secured resource.
 
-#### Trusonafying using SAML/OpenID Connect and an internal IDP
+#### Trusonafying using SAML or OpenID Connect and an internal IDP
 
 If your company is already using an IDP for authentication, you may be able to configure it to use the Trusona Gateway for Trusonafication using TruCode. The IDP will need to allow the adding of an external authenticator via OpenID Connect or SAML. It will also require the ability to allow the user to choose the #nopassword path at the point of login.
 
